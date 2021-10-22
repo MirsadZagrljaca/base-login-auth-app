@@ -47,6 +47,7 @@ export default function Register() {
     userName: "",
     email: "",
     password: "",
+    repeatPassword: "",
     open: false,
     error: "",
   });
@@ -77,6 +78,18 @@ export default function Register() {
       password: values.password || undefined,
     };
 
+    if (user.userName === "" || user.userName === undefined) {
+      return setValues({ ...values, error: "User name is required!" });
+    }
+
+    if (user.email === "" || user.email === undefined) {
+      return setValues({ ...values, error: "Email is required!" });
+    }
+
+    if (user.password === "" || user.password === undefined) {
+      return setValues({ ...values, error: "Password is required!" });
+    }
+
     let tempPassword = user.password.split("");
 
     for (let i = 0; i < tempPassword.length; i++) {
@@ -94,6 +107,13 @@ export default function Register() {
       return setValues({
         ...values,
         error: "Password must be longer then 6 letters",
+      });
+    }
+
+    if (user.password !== values.repeatPassword) {
+      return setValues({
+        ...values,
+        error: "Passwords don't match",
       });
     }
 
@@ -149,6 +169,17 @@ export default function Register() {
             className={classes.textField}
             value={values.password}
             onChange={changeHandler("password")}
+            margin="normal"
+          />
+          <br />
+
+          <TextField
+            id="repeatPassword"
+            type="password"
+            label="Repeat Password"
+            className={classes.textField}
+            value={values.repeatPassword}
+            onChange={changeHandler("repeatPassword")}
             margin="normal"
           />
           <br />
